@@ -5,6 +5,7 @@ const Interaction = require('./Interaction');
 const InteractionWebhook = require('./InteractionWebhook');
 const InteractionResponses = require('./interfaces/InteractionResponses');
 const { ApplicationCommandOptionTypes } = require('../util/Constants');
+const MessageAttachment  = require('./MessageAttachment');
 
 /**
  * Represents a command interaction.
@@ -169,6 +170,9 @@ class BaseCommandInteraction extends Interaction {
 
       const role = resolved.roles?.[option.value];
       if (role) result.role = this.guild?.roles._add(role) ?? role;
+
+      const attachment = resolved.attachments;
+      if (attachment) result.attachment = new MessageAttachment(Object.values(attachment)[0].url, Object.keys(attachment)[0], Object.values(attachment)[0]);
     }
 
     return result;
